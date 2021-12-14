@@ -1,0 +1,18 @@
+<%- include("inc/header") %>
+
+<div class="container py-md-5 container--narrow">
+  <%- include("inc/flash") %> <%- include("inc/sharedProfile") %>
+
+  <div class="list-group">
+    <% if (following.length) { following.forEach((foll) => { %>
+    <a href="/profile/<%= foll.username %>" class="list-group-item list-group-item-action">
+      <img class="avatar-tiny" src="<%= foll.avatar %>" />
+      <strong><%= foll.username %></strong>
+    </a>
+    <% }) } else { %>
+    <p>you are not following anyone.</p>
+    <% } %>
+  </div>
+</div>
+
+<%- include("inc/footer") %>
