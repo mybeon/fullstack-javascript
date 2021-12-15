@@ -74,7 +74,7 @@ exports.login = (req, res) => {
   user
     .login()
     .then((result) => {
-      req.session.user = { ...result, avatar: user.avatar };
+      req.session.user = { ...result };
       req.session.save(() => {
         res.redirect("/");
       });
@@ -96,6 +96,7 @@ exports.register = (req, res) => {
         username: user.data.username,
         avatar: user.avatar,
         _id: user.data._id,
+        confirmedEmail: user.data.confirmedEmail,
       };
       req.session.save(() => {
         res.redirect("/");
@@ -188,6 +189,64 @@ exports.doesEmailExists = (req, res) => {
     .catch(() => {
       res.status(500).json({ error: "server erro" });
     });
+};
+
+exports.verifyEmail = async (req, res) => {
+  try {
+    const paylod = await User.verifyEmail(req.params.token, req.visitorId);
+    req.session.user.confirmedEmail = true;
+    req.flash("success", `Email verified`);
+    req.session.save(() => {
+      res.redirect("/");
+    });
+  } catch (err) {
+    req.flash("errors", err);
+    req.session.save(() => {
+      res.redirect("/");
+    });
+  }
+};
+
+exports.resendEmail = async (req, res) => {
+  if (req.visitorId.equals(req.params.id)) {
+    try {
+      await User.sendEmailConfirmation({ _id: req.params.id }, req.session.user.email, req.session.user.username);
+      req.flash("success", `Email sent successfully.`);
+      req.session.save(() => {
+        res.redirect("/");
+      });
+    } catch (err) {
+      req.flash("errors", err);
+      req.session.save(() => {
+        res.redirect("/");
+      });
+    }
+  }
+};
+
+exports.ifVerifiedEmail = (req, res, next) => {
+  if (req.session.user.confirmedEmail) {
+    next();
+  } else {
+    req.flash("errors", "You cannot perform such a action until you verify your email");
+    req.session.save(() => {
+      res.redirect("/");
+    });
+  }
+};
+
+exports.editProfileScreen = (req, res) => {
+  if (req.params.username == req.session.user.username) {
+    User.findByUsername(req.session.user.username)
+      .then((userDoc) => {
+        res.render("edit-profile", { userDoc });
+      })
+      .catch(() => {
+        res.render("404");
+      });
+  } else {
+    res.render("404");
+  }
 };
 
 // API related

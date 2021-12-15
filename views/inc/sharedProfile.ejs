@@ -2,13 +2,18 @@
   <img class="avatar-small" src="<%= profileAvatar %>" />
   <%= profileUsername %> <% if (user && !isVisitorsProfile) { if (isFollowing) { %>
   <form class="ml-2 d-inline" action="/follow/delete/<%= profileUsername %>" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrf %>" />
     <button class="btn btn-danger btn-sm">Stop Following <i class="fas fa-user-times"></i></button>
   </form>
   <%} else { %>
   <form class="ml-2 d-inline" action="/follow/<%= profileUsername %>" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrf %>" />
     <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
   </form>
-  <% } } %>
+  <% }} %> 
+  <% if(user && isVisitorsProfile) { %>
+    <a href="/profile/<%= user.username %>/edit" class="btn btn-primary btn-sm"><span class="text-white">Edit</span></i></a>
+  <% } %>
 </h2>
 
 <div class="profile-nav nav nav-tabs pt-2 mb-4">
