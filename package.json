@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node db",
     "watch": "concurrently \"nodemon db --ignore js --ignore public/\" \"webpack --watch\"",
-    "webpack": "webpack --watch"
+    "webpack": "webpack --watch",
+    "production": "NODE_ENV=production node db"
   },
   "keywords": [
     "training",

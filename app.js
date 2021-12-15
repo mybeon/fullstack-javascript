@@ -10,6 +10,7 @@ const markdown = require("marked");
 const sanitizeHTML = require("sanitize-html");
 const csrf = require("csurf");
 const apiRouter = require("./api-router");
+const { Console } = require("console");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

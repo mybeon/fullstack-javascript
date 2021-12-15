@@ -215,7 +215,7 @@ User.sendEmailConfirmation = function (payload, email, username) {
           from: process.env.SMTP_SENDER,
           to: email,
           subject: "Email confirmation",
-          text: `Please verify your email by clicking this link http://localhost:3000/verify/${token}`,
+          text: `Please verify your email by clicking this link ${process.env.NODE_ENV ? process.env.PROD_URL : process.env.DEV_URL}/verify/${token}`,
           html: confirmationEmailTemplate(username, token),
         })
         .then((info) => {

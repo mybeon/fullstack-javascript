@@ -1,1 +1,1 @@
-web: node db.js
+web: NODE_ENV=production node db.js

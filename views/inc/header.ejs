@@ -47,5 +47,7 @@
       </div>
     </header>
     <% if(user && !user.confirmedEmail) { %>
-    <div class="alert alert-danger text-center">Please confirm your email.<a href="http://localhost:3000/verify/<%= user._id %>/resend"> resend</a></div>
+    <div class="container">
+      <div class="alert alert-danger text-center">Please confirm your email.<a class="resend-email" href="/verify/<%= user._id %>/resend"> resend</a></div>
+    </div>
     <% } %>

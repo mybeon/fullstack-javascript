@@ -1,3 +1,4 @@
+require("dotenv").config();
 module.exports = function (username, token) {
   return `
   <html style="opacity: 1">
@@ -196,7 +197,7 @@ module.exports = function (username, token) {
                                 <tr>
                                   <td align="center" bgcolor="#41B8FF" role="presentation" style="border: none; border-radius: 0px; cursor: auto; mso-padding-alt: 10px 25px; background: #41b8ff" valign="top">
                                     <a
-                                      href="http://localhost:3000/verify/${token}"
+                                      href="${process.env.NODE_ENV ? process.env.PROD_URL : process.env.DEV_URL}/verify/${token}"
                                       style="
                                         display: inline-block;
                                         background: #41b8ff;
@@ -249,7 +250,9 @@ module.exports = function (username, token) {
                                 >
                               </p>
                               <p style="text-align: left; margin: 10px 0; margin-bottom: 10px">
-                                <span style="font-size: 16px; text-align: left; color: #5e6977; font-family: Arial; line-height: 13px"><b>http://localhost:3000/verify/${token}</b></span>
+                                <span style="font-size: 16px; text-align: left; color: #5e6977; font-family: Arial; line-height: 13px"><b>${
+                                  process.env.NODE_ENV ? process.env.PROD_URL : process.env.DEV_URL
+                                }/verify/${token}</b></span>
                               </p>
                             </div>
                           </td>
