@@ -131,6 +131,7 @@ Post.reusablePostQuery = function (uniqueAgg, visitorId, finalAgg = []) {
       post.author = {
         username: post.author.username,
         avatar: new User(post.author, true).avatar,
+        profile: post.author.profileImg,
       };
       return post;
     });

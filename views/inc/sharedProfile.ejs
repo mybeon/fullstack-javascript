@@ -1,5 +1,6 @@
 <h2>
-  <img class="avatar-small" src="<%= profileAvatar %>" />
+  <% const avatar = profileImg ? `/uploads/${profileImg}` : profileAvatar %>
+  <img class="avatar-small" src="<%= avatar %>" />
   <%= profileUsername %> <% if (user && !isVisitorsProfile) { if (isFollowing) { %>
   <form class="ml-2 d-inline" action="/follow/delete/<%= profileUsername %>" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrf %>" />

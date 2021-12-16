@@ -7,6 +7,7 @@ const jsonWebToken = require("jsonwebtoken");
 const mailer = require("../emails/nodemailer");
 const confirmationEmailTemplate = require("../emails/templates/email-confirmation");
 const ObjectId = require("mongodb").ObjectId;
+const { unlink } = require("fs");
 
 let User = function (data, getAvatar) {
   this.data = data;
@@ -107,6 +108,7 @@ User.prototype.login = function () {
               avatar: this.avatar,
               confirmedEmail: user.confirmedEmail,
               email: user.email,
+              profile: user.profileImg,
             };
             res({ ...this.data });
           } else {
@@ -166,6 +168,7 @@ User.findByUsername = function (username) {
       .findOne({ username })
       .then((user) => {
         let userEmail = user.email;
+        let userProfile = user.profileImg;
         if (user) {
           user = new User(user, true);
           user = {
@@ -173,6 +176,7 @@ User.findByUsername = function (username) {
             username: user.data.username,
             avatar: user.avatar,
             email: userEmail,
+            profile: userProfile,
           };
           resolve(user);
         } else {
@@ -232,7 +236,7 @@ User.sendEmailConfirmation = function (payload, email, username) {
 User.verifyEmail = function (token, visitorId) {
   return new Promise((resolve, reject) => {
     jsonWebToken.verify(token, process.env.JSONSECRET, async (err, decode) => {
-      if (err) reject(err);
+      if (err) reject(err.msg);
       if (visitorId.equals(decode._id)) {
         await usersCollection.findOneAndUpdate(
           { _id: new ObjectId(decode._id) },
@@ -247,6 +251,20 @@ User.verifyEmail = function (token, visitorId) {
         reject("Don't have the permission");
       }
     });
+  });
+};
+
+User.uploadImage = function (id, img, sessionProfile) {
+  return new Promise((resolve, reject) => {
+    if (sessionProfile) {
+      unlink(`public/uploads/${sessionProfile}`, (err) => {
+        if (err) console.log(err);
+      });
+    }
+    usersCollection
+      .updateOne({ _id: id }, { $set: { profileImg: img } })
+      .then(() => resolve())
+      .catch(() => reject());
   });
 };
 

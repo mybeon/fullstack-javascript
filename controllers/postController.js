@@ -107,6 +107,8 @@ exports.search = (req, res) => {
     });
 };
 
+// API related
+
 exports.apiCreatePost = (req, res) => {
   let post = new Post(req.body, req.token._id);
   post

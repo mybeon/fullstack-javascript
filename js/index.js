@@ -2,6 +2,7 @@ import search from "./modules/search";
 import main from "./modules/main";
 import chat from "./modules/chat";
 import registration from "./modules/registration";
+import uploadImage from "./modules/uploadImage";
 
 if (document.querySelector("#registration-form")) {
   registration();
@@ -20,4 +21,8 @@ if (document.querySelector(".search-overlay")) {
 
 if (document.querySelector("#chat-wrapper")) {
   chat();
+}
+
+if (document.querySelector(".profile-up")) {
+  uploadImage();
 }

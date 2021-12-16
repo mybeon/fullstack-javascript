@@ -158,8 +158,7 @@ textarea.tall-textarea {
   visibility: hidden;
   opacity: 0;
   transform: scale(1.3);
-  transition: 0.33s visibility ease-in-out, 0.33s opacity ease-in-out,
-    0.33s transform ease-in-out;
+  transition: 0.33s visibility ease-in-out, 0.33s opacity ease-in-out, 0.33s transform ease-in-out;
   will-change: visibility, transform, opacity;
 }
 
@@ -383,4 +382,45 @@ textarea.tall-textarea {
   border: none;
   outline: none;
   font-size: 0.75rem;
+}
+
+.profile-up {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.profile-up h4 {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.img-container {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 35px rgba(0, 0, 0, 0.164);
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+
+.img-container img {
+  object-fit: cover;
+  height: 100%;
+}
+
+.profile-data {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+}
+
+.choose-img {
+  position: absolute;
+  bottom: -6%;
+  border-radius: 50%;
+  font-size: 12px;
 }

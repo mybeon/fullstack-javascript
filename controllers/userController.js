@@ -40,6 +40,7 @@ exports.profilePostScreen = (req, res) => {
         posts,
         profileUsername: req.userProfile.username,
         profileAvatar: req.userProfile.avatar,
+        profileImg: req.userProfile.profile,
         count: {
           postCount: req.postCount,
           followerCount: req.followerCount,
@@ -139,6 +140,7 @@ exports.profileFollowersScreen = (req, res) => {
         isFollowing: req.isFollowing,
         profileUsername: req.userProfile.username,
         profileAvatar: req.userProfile.avatar,
+        profileImg: req.userProfile.profile,
         count: {
           postCount: req.postCount,
           followerCount: req.followerCount,
@@ -159,6 +161,7 @@ exports.profileFollowingScreen = (req, res) => {
         isFollowing: req.isFollowing,
         profileUsername: req.userProfile.username,
         profileAvatar: req.userProfile.avatar,
+        profileImg: req.userProfile.profile,
         count: {
           postCount: req.postCount,
           followerCount: req.followerCount,
@@ -245,8 +248,24 @@ exports.editProfileScreen = (req, res) => {
         res.render("404");
       });
   } else {
-    res.render("404");
+    req.flash("errors", "You do not have the permission to perform such a action.");
+    req.session.save(() => {
+      res.redirect("/");
+    });
   }
+};
+
+exports.uploadImage = (req, res) => {
+  User.uploadImage(req.session.user._id, req.file.filename, req.session.user.profile)
+    .then(() => {
+      req.session.user.profile = req.file.filename;
+      req.session.save(() => {
+        res.json("success");
+      });
+    })
+    .catch(() => {
+      res.json("failure");
+    });
 };
 
 // API related

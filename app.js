@@ -64,8 +64,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", router);
-
 app.use((err, req, res, next) => {
   if (err) {
     req.flash("errors", err.message);
@@ -76,6 +74,8 @@ app.use((err, req, res, next) => {
     next();
   }
 });
+
+app.use("/", router);
 
 const server = http.createServer(app);
 const io = require("socket.io")(server);

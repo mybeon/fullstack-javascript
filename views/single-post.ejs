@@ -24,7 +24,8 @@
   </div>
 
   <p class="text-muted small mb-4">
-    <a href="/profile/<%= post.author.username %>"><img class="avatar-tiny" src="<%= post.author.avatar %>" /></a>
+    <% const avatar = post.author.profile ? `/uploads/${post.author.profile}` : post.author.avatar %>
+    <a href="/profile/<%= post.author.username %>"><img class="avatar-tiny" src="<%= avatar %>" /></a>
     Posted by <a href="/profile/<%= post.author.username %>"><%= post.author.username %></a> on <%= post.createdAt.getMonth() + 1%>/<%= post.createdAt.getDate() %>/<%= post.createdAt.getFullYear() %>
   </p>
 
