@@ -236,7 +236,7 @@ User.sendEmailConfirmation = function (payload, email, username) {
 User.verifyEmail = function (token, visitorId) {
   return new Promise((resolve, reject) => {
     jsonWebToken.verify(token, process.env.JSONSECRET, async (err, decode) => {
-      if (err) reject(err.msg);
+      if (err) return reject(err.message.replace("jwt", "Link has"));
       if (visitorId.equals(decode._id)) {
         await usersCollection.findOneAndUpdate(
           { _id: new ObjectId(decode._id) },
